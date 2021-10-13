@@ -52,6 +52,12 @@ jobs:
 
       - name: Setup file update
         uses: test-room-7/action-update-file@v1
+        if: ${{ github.ref == 'refs/heads/master123' }}
+        with:
+          file-path: .github/build_tool_cache.yml
+          branch: badges
+          commit-msg: Update coverage
+          github-token: ${{ secrets.GITHUB_TOKEN }}        
 
 
 
