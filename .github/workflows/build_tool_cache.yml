@@ -27,7 +27,7 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.9'
-          
+
       - name: Get pip cache dir
         id: pip-cache
         run: echo "::set-output name=dir::$(pip cache dir)"
@@ -42,6 +42,10 @@ jobs:
 
       - name: Set up deploy ph-pages
         uses: peaceiris/actions-gh-pages@v3
+        if: ${{ github.ref == 'refs/heads/master123' }}
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
 
       - name: Setup coverage
         uses: emibcn/badge-action@v1.2.1
