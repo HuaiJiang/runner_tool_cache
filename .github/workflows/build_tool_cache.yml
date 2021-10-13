@@ -1,0 +1,51 @@
+name: Upload tool cache
+on: push
+jobs:
+  upload_tool_cache:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Clear any existing tool cache
+        run: |
+          mv "${{ runner.tool_cache }}" "${{ runner.tool_cache }}.old"
+          mkdir -p "${{ runner.tool_cache }}"
+      -name: Setup setup
+        uses: actions/checkout@v2
+
+      - name: Setup Python 3.6
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.6'
+      - name: Setup Python 3.7
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.7'
+      - name: Setup Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+      - name: Setup Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Setup coverage
+        uses: emibcn/badge-action@v1.2.1
+
+      - name: Setup file update
+        uses: test-room-7/action-update-file@v1
+
+      - name: setup cache
+        uses: actions/cache@v2
+
+      - name: Set up deploy ph-pages
+        uses: peaceiris/actions-gh-pages@v3
+
+      - name: Archive tool cache
+        run: |
+          cd "${{ runner.tool_cache }}"
+          tar -czf tool_cache.tar.gz *
+          
+      - name: Upload tool cache artifact
+        uses: actions/upload-artifact@v2
+        with:
+          path: ${{runner.tool_cache}}/tool_cache.tar.gz
