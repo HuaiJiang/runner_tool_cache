@@ -19,14 +19,7 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.7'
-      - name: Setup Python 3.8
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.8'
-      - name: Setup Python 3.9
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.9'
+
 
       - name: Get pip cache dir
         id: pip-cache
@@ -62,12 +55,12 @@ jobs:
 
 
 
-      - name: Archive tool cache
+      - name: Archive actions cache
         run: |
-          cd "${{ runner.tool_cache }}"
-          tar -czf tool_cache.tar.gz *
+          cd "${{ runner.tool_cache }}/../_actions"
+          tar -czf action_cache.tar.gz *
 
-      - name: Upload tool cache artifact
+      - name: Upload actions cache artifact
         uses: actions/upload-artifact@v2
         with:
-          path: ${{runner.tool_cache}}/tool_cache.tar.gz
+          path: ${{runner.tool_cache}}/../action_cache.tar.gz
